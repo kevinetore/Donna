@@ -3,12 +3,15 @@ import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
-GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(16, GPIO.OUT)
 
+pins = 8, 10
+GPIO.setup(pins, GPIO.OUT)
+GPIO.setup(40, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 while True:
-	input_state = GPIO.input(18)
+	input_state = GPIO.input(40)
 	if input_state == False:
-		GPIO.output(16, GPIO.HIGH)
-	GPIO.output(16, GPIO.LOW)
+		GPIO.output(pins, GPIO.HIGH)
+	GPIO.output(pins, GPIO.LOW)
 GPIO.cleanup()
+
+
