@@ -19,7 +19,7 @@ reversed_board_pins = board_pins[::-1]
 GPIO.setup(pins+second_pins, GPIO.OUT)
 
 # load db info from a JSON file
-with open("database.cnf") as f:
+with open("/home/pi/projects/donna/fingerprinting/database.cnf") as f:
     config = json.load(f)   
 
 def piBoard():

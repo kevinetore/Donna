@@ -2,7 +2,8 @@ from apiclient.discovery import build
 from apiclient.errors import HttpError
 from oauth2client.tools import argparser
 import insert_playlist
-import donna
+import fingerprinting.fingerprint as donna
+import nlp.added as textToSpeech
 
 # Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
 # tab of
@@ -47,6 +48,7 @@ if __name__ == "__main__":
     youtube_search(args)
   except HttpError, e:
     print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
+    # %s acts a placeholder for a string, while %d acts as a placeholder for a number
 
   insert_playlist.playlist_items_insert(
       {'snippet.playlistId': 'PLmlXzyxigzqmWTk6-_9x2XTydGpOlGmHN',
@@ -55,3 +57,5 @@ if __name__ == "__main__":
        'snippet.position': ''},
       part='snippet',
       onBehalfOfContentOwner='')
+  
+  textToSpeech.addedSong(song)
