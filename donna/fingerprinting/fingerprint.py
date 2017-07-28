@@ -65,4 +65,11 @@ def recognizeSong():
     djv.fingerprint_directory("mp3", [".mp3"])
     secs = 5
     
-    return djv.recognize(MicrophoneRecognizer, seconds=secs)
+    # I'm trying to catch the exception because sometimes Alsa throws a weird -9981 input overflowed error
+    for i in range(0,100):
+        while True:
+            try:
+                return djv.recognize(MicrophoneRecognizer, seconds=secs)
+            except IOError:
+                continue
+            break
