@@ -1,6 +1,5 @@
 from apiclient.discovery import build
 from apiclient.errors import HttpError
-from oauth2client.tools import argparser
 import insert_playlist
 import fingerprinting.fingerprint as donna
 import nlp.added as textToSpeech
@@ -12,11 +11,12 @@ import nlp.added as textToSpeech
 DEVELOPER_KEY = "AIzaSyAJRQQxKwic0ofezl-YRwxfOzHW8zg4FwY"
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
-donna_magic = donna.recognizeSong()
-print(donna_magic)
-song = donna_magic['song_name']
 
 def youtube_search(options):
+  donna_magic = donna.recognizeSong()
+  print(donna_magic)
+  song = donna_magic['song_name']
+
   videos = ""
   youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
     developerKey=DEVELOPER_KEY)
@@ -38,17 +38,6 @@ def youtube_search(options):
 
   youtube_search.song = videos.split()[-1].replace("(","").replace(")","")
   print("found the song on Youtube " + youtube_search.song)
-
-if __name__ == "__main__":
-  argparser.add_argument("--q", help="Search term", default="Google")
-  argparser.add_argument("--max-results", help="Max results", default=1)
-  args = argparser.parse_args()
-
-  try:
-    youtube_search(args)
-  except HttpError, e:
-    print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
-    # %s acts a placeholder for a string, while %d acts as a placeholder for a number
 
   insert_playlist.playlist_items_insert(
       {'snippet.playlistId': 'PLmlXzyxigzqmWTk6-_9x2XTydGpOlGmHN',

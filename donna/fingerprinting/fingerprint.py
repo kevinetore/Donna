@@ -24,7 +24,7 @@ with open("/home/pi/projects/donna/fingerprinting/database.cnf") as f:
 
 def piBoard():
     recognizing = 0
-    while (recognizing < 10):
+    while (recognizing < 20):
         for pin in board_pins:
             GPIO.output(
                 pin[0], GPIO.HIGH
