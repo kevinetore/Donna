@@ -49,8 +49,8 @@ while True:
                     os.system('mpg321 -o alsa initial_state.mp3')
                     os.remove('initial_state.mp3')
                     
-                    import start as start
-                    start.youtube_search(args)
+                    import search_song
+                    search_song.youtube_search(args)
                 decoder.start_utt()
     else:
         break
