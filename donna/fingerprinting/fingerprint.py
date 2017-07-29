@@ -63,9 +63,10 @@ def recognizeSong():
 
     # Fingerprint mp3's in mp3 directory
     djv.fingerprint_directory("mp3", [".mp3"])
-    secs = 5
+    secs = 10
     
     # I'm trying to catch the exception because sometimes Alsa throws a weird -9981 input overflowed error
+    # Still this is a very very bad implementation. First it would take ages and after the 100th time Donna would just crash
     for i in range(0,100):
         while True:
             try:

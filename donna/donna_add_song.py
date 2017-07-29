@@ -4,6 +4,7 @@ from oauth2client.tools import argparser
 
 from gtts import gTTS
 import os
+import pyaudio
 
 default_path = '/home/pi/projects/speech_recognition/pocketsphinx/model/en-us/en-us'
 
@@ -19,7 +20,6 @@ argparser.add_argument("--q", help="Search term", default="Google")
 argparser.add_argument("--max-results", help="Max results", default=1)
 args = argparser.parse_args()
 
-import pyaudio
 p = pyaudio.PyAudio()
 stream = p.open(
         format=pyaudio.paInt16,
@@ -33,7 +33,8 @@ stream.start_stream()
 in_speech_bf = False
 decoder.start_utt()
 while True:
-    buf = stream.read(1024, exception_on_overflow = False) # Ik heb exception on overflow nodig omdat de CPU van de Pi het anders niet trekt
+    # I need an exception on overflow because sometimes the CPU of the Raspberry will crash
+    buf = stream.read(1024, exception_on_overflow = False)
     if buf:
         decoder.process_raw(buf, False, False)
         if decoder.get_in_speech() != in_speech_bf:
@@ -41,7 +42,7 @@ while True:
             if not in_speech_bf:
                 decoder.end_utt()
                 result = decoder.hyp().hypstr
-                if result == 'DONNA ADD SONG':
+                if result == "DONNA ADD SONG":
                     print result
                     donna = "Hello master Kevin, sure give me a moment!"
                     tts = gTTS(text= donna, lang='en')
@@ -49,6 +50,8 @@ while True:
                     os.system('mpg321 -o alsa initial_state.mp3')
                     os.remove('initial_state.mp3')
                     
+                    # I need to import the search_song this late because it instantly executes it
+                    # I should learn a bit more about the usage of "if __name__ == __main___"
                     import search_song
                     search_song.youtube_search(args)
                 decoder.start_utt()
