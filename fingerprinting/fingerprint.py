@@ -19,7 +19,7 @@ reversed_board_pins = board_pins[::-1]
 GPIO.setup(pins+second_pins, GPIO.OUT)
 
 # load db info from a JSON file
-with open("/home/pi/projects/donna/fingerprinting/database.cnf") as f:
+with open("/home/pi/projects/fingerprinting/database.cnf") as f:
     config = json.load(f)   
 
 def piBoard():
@@ -54,6 +54,7 @@ def piBoard():
                 pin[1], GPIO.LOW
             )
         recognizing += 1
+    # GPIO.cleanup()
         
 def recognizeSong():
     # Have to run multiple threads at the same time in order to let the 5mm LED's blink and recognize the music
