@@ -3,6 +3,7 @@ from apiclient.errors import HttpError
 import insert_playlist
 import fingerprinting.fingerprint as donna
 import nlp.added as textToSpeech
+import retrieve_playlist
 
 # Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
 # tab of
@@ -38,9 +39,10 @@ def youtube_search(options):
 
   youtube_search.song = videos.split()[-1].replace("(","").replace(")","")
   print("found the song on Youtube " + youtube_search.song)
-
+  
   insert_playlist.playlist_items_insert(
-      {'snippet.playlistId': 'PLmlXzyxigzqmWTk6-_9x2XTydGpOlGmHN',
+      {'snippet.playlistId': str(retrieve_playlist.get_youtube_playlist()),
+       #'PLmlXzyxigzqmWTk6-_9x2XTydGpOlGmHN',
        'snippet.resourceId.kind': 'youtube#video',
        'snippet.resourceId.videoId': youtube_search.song,
        'snippet.position': ''},
