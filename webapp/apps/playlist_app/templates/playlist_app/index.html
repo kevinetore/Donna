@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Your Youtube Playlist</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  </head>
+  <body>
+    {% if not playlist %}
+      <form action="/create" method="post">
+        {% csrf_token %}
+        <label for="name">Playlist (complete URL): <input type="text" name="name" id="name"></label>
+        <input type="submit" value="Create">
+      </form>
+    {% endif %}
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Playlist ID</th>
+          <th>Created at</th>
+          <th>Updated at</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          {% if playlist %}
+            <td>{{ playlist.playlist_id }}</td>
+            <td>{{ playlist.created_at }}</td>
+            <td>{{ playlist.updated_at }}</td>
+            <td>
+              <a href="/edit/{{ playlist.id }}">Edit</a>
+              <a href="/delete/{{ playlist.id }}">Delete</a>
+            </td>
+          {% else %}
+            No Youtube Playlist provided
+          {% endif %}
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
